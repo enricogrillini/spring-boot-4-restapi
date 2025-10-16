@@ -27,16 +27,13 @@ class SecurityControllerTest {
     JwtService jwtService;
 
     @Autowired
-    private ObjectMapper objectMapper;
-
-    @Autowired
     private MockMvc mockMvc;
 
     private static final String URI = "/security/generate-token";
 
     @Test
-    void postDocumentTestKOSec() throws Exception {
-        String userStr = TestUtil.readFile("SecurityControllerTest/user.json");
+    void generateToken() throws Exception {
+        String userStr = TestUtil.readFile("SecurityControllerTest/mock/user.json");
 
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders
@@ -50,7 +47,7 @@ class SecurityControllerTest {
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
 
         // Verifico la risposta
-        Token token = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Token.class);
+        Token token = TestUtil.defaultObjectMapper().readValue(mvcResult.getResponse().getContentAsString(), Token.class);
         assertNotNull(token.getJwtToken());
 
         Jws<Claims> claims = jwtService.parseToken(token.getJwtToken());
@@ -58,6 +55,7 @@ class SecurityControllerTest {
         assertEquals("reader", claims.getBody().getSubject());
         assertEquals("progetto-cookbook", claims.getBody().getAudience());
         assertEquals("customClaim", claims.getBody().get("customClaim"));
+
     }
 
 }
