@@ -1,0 +1,254 @@
+openapi: 3.0.1
+info:
+  title: Documento API
+  description: "Rest API example: Documento API"
+  version: 1.0.0-SNAPSHOT
+
+servers:
+  - url: http://localhost:8082
+    description: Generated server url
+
+tags:
+  - name: Documento
+    description: Rest API - Documento CRUD
+  - name: Security
+    description: Rest API - Security
+
+security:
+  - bearerAuth: [ ]
+
+paths:
+  /documento:
+    get:
+      tags:
+        - Documento
+      security: [ ]
+      summary: Ritorna la lista di documenti
+      operationId: find
+      responses:
+        "200":
+          $ref: '#/components/responses/DocumentoListResponse'
+
+    post:
+      tags:
+        - Documento
+      summary: Aggiunge un documento
+      operationId: create
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "200":
+          $ref: '#/components/responses/DocumentoResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+  /documento/{id}:
+    get:
+      tags:
+        - Documento
+      security: [ ]
+      summary: Ritorna un documento
+      operationId: get
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          $ref:  '#/components/responses/DocumentoResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+    put:
+      tags:
+        - Documento
+      summary: Aggiorna un documento
+      operationId: update
+      parameters:
+        - in: path
+          name: id
+          schema:
+            $ref: '#/components/schemas/Id'
+          required: true
+          description: id soggetto
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      responses:
+        "200":
+          $ref: '#/components/responses/DocumentoResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+    delete:
+      tags:
+        - Documento
+      summary: Elimina un documento
+      operationId: delete
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        "200":
+          $ref: '#/components/responses/MessageResponse'
+        "400":
+          $ref: '#/components/responses/MessageResponse'
+
+  /security/generate-token:
+    post:
+      tags:
+        - Security
+      security: [ ]
+      summary: Genera un JWT
+      operationId: postGenerateToken
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+        required: true
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Token'
+
+components:
+  responses:
+
+    DocumentoListResponse:
+      description: Lista di documenti
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Documento'
+
+    DocumentoResponse:
+      description: Documento
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Documento'
+
+    MessageResponse:
+      description: Messaggio generico
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Message'
+
+  schemas:
+    Documento:
+      required:
+        - nome
+        - descrizione
+      type: object
+      properties:
+        id:
+          $ref: '#/components/schemas/Id'
+        nome:
+          type: string
+          description: Nome
+          example: Titolo
+        descrizione:
+          type: string
+          description: Descriptione
+          example: Descrizione
+        data:
+          $ref: '#/components/schemas/Date'
+
+    Message:
+      required:
+        - code
+        - description
+      type: object
+      properties:
+        code:
+          type: string
+          description: Codice risposta
+          example: OK
+        description:
+          type: string
+          description: Descrizione
+          example: Operazione eseguita correttamente
+        detail:
+          type: string
+          description: Descrizione dettagliata
+          example: Operazione eseguita correttamente senza avvertimenti
+
+    User:
+      required:
+        - audience
+        - customClaim
+        - issuer
+        - subject
+        - ttlMillis
+      type: object
+      properties:
+        issuer:
+          type: string
+          description: issuer
+          example: www.idm.com"
+        subject:
+          type: string
+          description: subject
+          example: reader-1"
+        audience:
+          type: string
+          description: audience
+          example: progetto-cookbook
+        customClaim:
+          type: string
+          description: customClaim
+          example: customClaim
+        ttlMillis:
+          type: integer
+          description: ttlMillis
+          format: int64
+          example: 3600000
+
+    Token:
+      type: object
+      properties:
+        jwtToken:
+          type: string
+
+    #############
+    # TIPI BASE #
+    #############
+    Date:
+      type: string
+      format: date
+      example: '2022-04-22'
+
+    DateTime:
+      type: string
+      format: date-time
+
+    Id:
+      type: integer
+      format: int64
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
