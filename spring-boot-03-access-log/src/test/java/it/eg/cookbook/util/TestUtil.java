@@ -1,16 +1,7 @@
 package it.eg.cookbook.util;
 
+
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.json.JSONException;
@@ -19,6 +10,12 @@ import org.skyscreamer.jsonassert.JSONAssert;
 import org.skyscreamer.jsonassert.JSONCompareMode;
 import org.skyscreamer.jsonassert.comparator.CustomComparator;
 import org.springframework.mock.web.MockHttpServletResponse;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
 import java.io.IOException;
@@ -35,20 +32,15 @@ public abstract class TestUtil {
     public static ObjectMapper defaultObjectMapper() {
         return JsonMapper
                 .builder()
-                .addModules(new Jdk8Module(), new JavaTimeModule(), new ParameterNamesModule())
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
-                .configure(JsonParser.Feature.ALLOW_UNQUOTED_FIELD_NAMES, true)
                 .configure(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY, false)
-                .enable(SerializationFeature.INDENT_OUTPUT)
-                .serializationInclusion(JsonInclude.Include.NON_NULL)
-                // Non sono serilizzare i campi non valorizzati (per evitare problemi con integrazioni Feign)
-                //.serializationInclusion(JsonInclude.Include.ALWAYS)
-                .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .configure(SerializationFeature.INDENT_OUTPUT, true)
+                .changeDefaultPropertyInclusion(incl -> incl.withValueInclusion(JsonInclude.Include.NON_NULL))
                 .defaultTimeZone(TimeZone.getDefault())
                 .build();
     }
 
-    public static <T> T readObject(String fileName, Class<T> valueType) throws JsonProcessingException {
+    public static <T> T readObject(String fileName, Class<T> valueType) {
         ObjectMapper objectMapper = defaultObjectMapper();
         return objectMapper.readValue(readFile(fileName), valueType);
     }

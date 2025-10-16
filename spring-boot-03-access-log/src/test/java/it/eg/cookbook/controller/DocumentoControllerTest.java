@@ -1,7 +1,10 @@
 package it.eg.cookbook.controller;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import it.eg.cookbook.service.DocumentoService;
 import it.eg.cookbook.util.TestUtil;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +15,21 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import tools.jackson.databind.DeserializationFeature;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
+import tools.jackson.databind.json.JsonMapper;
+
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.util.TimeZone;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Slf4j
 class DocumentoControllerTest {
 
     @Autowired
@@ -33,8 +46,18 @@ class DocumentoControllerTest {
         documentoService.afterPropertiesSet();
     }
 
+    @Data
+    public static class Pippo {
+        String stringField;
+        Long longField;
+        Double doubleField;
+        OffsetDateTime offsetDateTimeField;
+        OffsetDateTime empty;
+    }
+
     @Test
     void create() throws Exception {
+
         // Act
         MvcResult mvcResult = mockMvc
                 .perform(MockMvcRequestBuilders.post(URI)
