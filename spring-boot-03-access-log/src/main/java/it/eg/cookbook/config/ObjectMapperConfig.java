@@ -15,7 +15,7 @@ import java.util.TimeZone;
 public class ObjectMapperConfig {
 
     @Bean
-    JsonMapper objectMapper() {
+    JsonMapper jsonMapper() {
         return defaultObjectMapper();
     }
 

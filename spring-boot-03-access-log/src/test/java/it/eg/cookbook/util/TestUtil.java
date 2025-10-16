@@ -14,7 +14,6 @@ import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.MapperFeature;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
-import tools.jackson.databind.cfg.DateTimeFeature;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
@@ -29,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 @Slf4j
 public abstract class TestUtil {
 
-    public static ObjectMapper defaultObjectMapper() {
+    public static JsonMapper defaultObjectMapper() {
         return JsonMapper
                 .builder()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
