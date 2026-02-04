@@ -18,9 +18,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-@Transactional
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class DocumentoControllerTest {
 

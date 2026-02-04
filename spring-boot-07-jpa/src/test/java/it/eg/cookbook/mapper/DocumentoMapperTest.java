@@ -8,6 +8,8 @@ import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
@@ -15,7 +17,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 @SpringBootTest
-@DisplayName("VERIFICA DocumentoMapper")
+@AutoConfigureMockMvc
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class DocumentoMapperTest {
 

@@ -14,11 +14,11 @@ import java.util.TimeZone;
 public class ObjectMapperConfig {
 
     @Bean
-    tools.jackson.databind.json.JsonMapper jsonMapper() {
+    JsonMapper jsonMapper() {
         return defaultObjectMapper();
     }
 
-    public static tools.jackson.databind.json.JsonMapper defaultObjectMapper() {
+    public static JsonMapper defaultObjectMapper() {
         return JsonMapper
                 .builder()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
