@@ -2,15 +2,24 @@
   "id" : 1,
   "nome" : "Contratto",
   "descrizione" : "Contratto tra le parti per sottoscrizione conto corrente",
-  "data" : "2024-01-01"
+  "data" : "2024-01-01",
+  "autori" : [ {
+    "nome" : "Mario",
+    "cognome" : "Rossi"
+  } ]
 }, {
   "id" : 2,
   "nome" : "Recesso",
   "descrizione" : "Norme per il recesso",
-  "data" : "2024-01-01"
+  "data" : "2024-01-01",
+  "autori" : [ {
+    "nome" : "Ugo",
+    "cognome" : "Bianchi"
+  } ]
 }, {
   "id" : 3,
   "nome" : "Appendice",
   "descrizione" : "Appendice al contratto di sottoscrizione",
-  "data" : "2024-01-01"
+  "data" : "2024-01-01",
+  "autori" : [ ]
 } ]

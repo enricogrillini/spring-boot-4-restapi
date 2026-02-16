@@ -1,6 +1,9 @@
 package it.eg.cookbook.controller;
 
+import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.User;
+import it.eg.cookbook.model.entity.DocumentoEntity;
+import it.eg.cookbook.repository.DocumentoRepository;
 import it.eg.cookbook.service.JwtService;
 import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -15,6 +18,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import tools.jackson.databind.json.JsonMapper;
+
+import java.nio.charset.StandardCharsets;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -24,11 +30,18 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
 class DocumentoControllerTest {
 
+
     @Autowired
     private MockMvc mockMvc;
 
     @Autowired
     private JwtService jwtService;
+
+    @Autowired
+    private JsonMapper jsonMapper;
+
+    @Autowired
+    private DocumentoRepository documentoRepository;
 
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";
@@ -56,6 +69,10 @@ class DocumentoControllerTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/create.json", mvcResult.getResponse(), "id");
+
+        Documento documento = jsonMapper.readValue(new String(mvcResult.getResponse().getContentAsByteArray(), StandardCharsets.UTF_8), Documento.class);
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(documento.getId());
+        assertEquals("writer-1", documentoEntity.getCreatedBy());
     }
 
     @Test
@@ -180,8 +197,10 @@ class DocumentoControllerTest {
         // Verify
         assertEquals(HttpStatus.OK.value(), mvcResult.getResponse().getStatus());
         TestUtil.assertJsonEqualsFile("DocumentoControllerTest/expected/update.json", mvcResult.getResponse());
-    }
 
+        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(2L);
+        assertEquals("writer-1", documentoEntity.getUpdatedBy());
+    }
 
     @Test
     void update_wrongPayload_KO() throws Exception {

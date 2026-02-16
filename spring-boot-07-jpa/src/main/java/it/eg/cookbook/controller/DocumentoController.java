@@ -7,6 +7,7 @@ import it.eg.cookbook.model.Message;
 import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
 import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.service.DocumentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ public class DocumentoController implements DocumentoApi {
 
     private final DocumentoMapper documentoMapper;
     private final DocumentoRepository documentoRepository;
+    private final DocumentoService documentoService;
 
     @Override
     public ResponseEntity<Documento> create(Documento documento) {
@@ -29,35 +31,7 @@ public class DocumentoController implements DocumentoApi {
             throw new ApiException(ResponseCode.BUSINESS_ERROR, "L'id documento non deve essere indicato");
         }
 
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-
-        DocumentoEntity documentoEntity = documentoMapper.apiToEntity(documento);
-        documentoMapper.updateEntity(documentoEntity, documento, authentication.getName());
-        documentoRepository.save(documentoEntity);
-
-        return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
-    }
-
-    @Override
-    public ResponseEntity<Message> delete(Long id) {
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
-        documentoRepository.delete(documentoEntity);
-
-        return ResponseEntity.ok(ResponseCode.OK.getMessage("Documento eliminato correttamente"));
-    }
-
-    @Override
-    public ResponseEntity<List<Documento>> find() {
-        Iterable<DocumentoEntity> list = documentoRepository.findAll();
-
-        return ResponseEntity.ok(documentoMapper.listEntityToApi(list));
-    }
-
-    @Override
-    public ResponseEntity<Documento> get(Long id) {
-        DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
-
-        return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
+        return ResponseEntity.ok(documentoService.create(documento));
     }
 
     @Override
@@ -66,11 +40,24 @@ public class DocumentoController implements DocumentoApi {
             throw new ApiException(ResponseCode.BUSINESS_ERROR, "Id documento incoerente");
         }
 
-        UsernamePasswordAuthenticationToken authentication = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        return ResponseEntity.ok(documentoService.update(documento));
+    }
 
+    @Override
+    public ResponseEntity<Message> delete(Long id) {
+        return ResponseEntity.ok(documentoService.delete(id));
+    }
+
+    @Override
+    public ResponseEntity<List<Documento>> find() {
+        Iterable<DocumentoEntity> list = documentoRepository.findAll();
+
+        return ResponseEntity.ok(documentoMapper.documentoAutorelistEntityToApi(list));
+    }
+
+    @Override
+    public ResponseEntity<Documento> get(Long id) {
         DocumentoEntity documentoEntity = documentoRepository.findByIdOrThrow(id);
-        documentoMapper.updateEntity(documentoEntity, documento, authentication.getName());
-        documentoRepository.save(documentoEntity);
 
         return ResponseEntity.ok(documentoMapper.entityToApi(documentoEntity));
     }

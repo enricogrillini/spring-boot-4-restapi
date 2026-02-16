@@ -9,7 +9,6 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
-import org.springframework.transaction.annotation.Transactional;
 import tools.jackson.databind.json.JsonMapper;
 
 import java.io.File;
@@ -58,6 +57,5 @@ class DocumentoMapperTest {
                     TestUtil.assertJsonEqualsFile("DocumentoMapperTest/api/" + dt.getName(), jsonMapper.writeValueAsString(documentoEntity));
                 }));
     }
-
 
 }

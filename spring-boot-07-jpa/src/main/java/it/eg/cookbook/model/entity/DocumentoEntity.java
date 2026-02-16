@@ -5,12 +5,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
 @Entity
 @Table(name = "documento")
-public class DocumentoEntity {
+public class DocumentoEntity extends AbstractAuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_id_documento")
@@ -20,5 +22,7 @@ public class DocumentoEntity {
     private String nome;
     private String descrizione;
     private LocalDate data;
-    private String updateBy;
+
+    @OneToMany(mappedBy = "documento", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DocumentoAutoreEntity> documentoAutoreList = new ArrayList<>();
 }
