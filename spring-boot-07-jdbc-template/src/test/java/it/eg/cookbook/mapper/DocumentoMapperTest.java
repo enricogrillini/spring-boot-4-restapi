@@ -3,7 +3,7 @@ package it.eg.cookbook.mapper;
 import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
-import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.repository.OldDocumentoRepository;
 import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +27,7 @@ class DocumentoMapperTest {
     JsonMapper jsonMapper;
 
     @Autowired
-    DocumentoRepository documentoRepository;
+    OldDocumentoRepository documentoRepository;
 
     @TestFactory
     @DisplayName("Check mapping Api to Entity")

@@ -3,7 +3,7 @@ package it.eg.cookbook.controller;
 import it.eg.cookbook.model.Documento;
 import it.eg.cookbook.model.User;
 import it.eg.cookbook.model.entity.DocumentoEntity;
-import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.repository.OldDocumentoRepository;
 import it.eg.cookbook.service.JwtService;
 import it.eg.cookbook.util.TestUtil;
 import org.junit.jupiter.api.DisplayNameGeneration;
@@ -41,7 +41,7 @@ class DocumentoControllerTest {
     private JsonMapper jsonMapper;
 
     @Autowired
-    private DocumentoRepository documentoRepository;
+    private OldDocumentoRepository documentoRepository;
 
     private static final String URI = "/documento";
     private static final String URI_ID = "/documento/{id}";

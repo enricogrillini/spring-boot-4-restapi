@@ -8,7 +8,7 @@ import it.eg.cookbook.model.entity.DocumentoAutoreEntity;
 import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
 import it.eg.cookbook.repository.AutoreRepository;
-import it.eg.cookbook.repository.DocumentoRepository;
+import it.eg.cookbook.repository.OldDocumentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class DocumentoService {
 
     private final DocumentoMapper documentoMapper;
-    private final DocumentoRepository documentoRepository;
+    private final OldDocumentoRepository documentoRepository;
     private final AutoreRepository autoreRepository;
 
 
