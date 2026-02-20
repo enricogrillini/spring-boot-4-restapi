@@ -15,7 +15,7 @@ public class SecurityController implements SecurityApi {
     private final JwtService jwtService;
 
     @Override
-    public ResponseEntity<Token> postGenerateToken(User user) {
+    public ResponseEntity<Token> login(User user) {
         Token token = new Token().jwtToken(jwtService.createJWT(user));
 
         return ResponseEntity.ok(token);

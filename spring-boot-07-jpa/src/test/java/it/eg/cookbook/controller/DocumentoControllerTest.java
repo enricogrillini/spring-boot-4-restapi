@@ -48,11 +48,8 @@ class DocumentoControllerTest {
 
     private String mockToken(String user) {
         return jwtService.createJWT(new User()
-                .issuer("www.idm.com")
-                .subject(user)
-                .audience("progetto-cookbook")
-                .customClaim("customClaim")
-                .ttlMillis(Long.valueOf(3600 * 1000)));
+                .userid("www.idm.com")
+                .password("fake"));
     }
 
     @Test

@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface OldDocumentoRepository extends JpaRepository<DocumentoEntity, Long> {
+public interface DocumentoRepository extends JpaRepository<DocumentoEntity, Long> {
 
     default DocumentoEntity findByIdOrThrow(Long id) {
         return findById(id).orElseThrow(() -> new ApiException(ResponseCode.NOT_FOUND, "Documento non trovato"));

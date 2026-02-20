@@ -32,7 +32,7 @@ public class SecurityConfig {
     };
 
     public static final String DOCUMENTO_URI = "/documento/**";
-    public static final String SECURITY_URI = "/security/generate-token";
+    public static final String SECURITY_URI = "/security/login";
 
     public static final String RULE_READER = "READER";
     public static final String RULE_WRITER = "WRITER";

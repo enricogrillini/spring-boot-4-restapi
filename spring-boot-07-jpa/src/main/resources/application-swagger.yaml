@@ -108,13 +108,13 @@ paths:
         "400":
           $ref: '#/components/responses/MessageResponse'
 
-  /security/generate-token:
+  /security/login:
     post:
       tags:
         - Security
       security: [ ]
       summary: Genera un JWT
-      operationId: postGenerateToken
+      operationId: login
       requestBody:
         content:
           application/json:
@@ -213,34 +213,14 @@ components:
 
     User:
       required:
-        - audience
-        - customClaim
-        - issuer
-        - subject
-        - ttlMillis
+        - userid
+        - password
       type: object
       properties:
-        issuer:
+        userid:
           type: string
-          description: issuer
-          example: www.idm.com"
-        subject:
+        password:
           type: string
-          description: subject
-          example: reader-1"
-        audience:
-          type: string
-          description: audience
-          example: progetto-cookbook
-        customClaim:
-          type: string
-          description: customClaim
-          example: customClaim
-        ttlMillis:
-          type: integer
-          description: ttlMillis
-          format: int64
-          example: 3600000
 
     Token:
       type: object

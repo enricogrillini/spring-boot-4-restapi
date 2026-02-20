@@ -70,7 +70,14 @@ public class JwtService implements InitializingBean {
         long nowMillis = System.currentTimeMillis();
 
         // Let's set the JWT Claims
-        return Jwts.builder().setSubject(user.getSubject()).setIssuer(user.getIssuer()).setAudience(user.getAudience()).claim("customClaim", user.getCustomClaim()).setIssuedAt(new Date(nowMillis)).signWith(privateKey, SignatureAlgorithm.RS256).setExpiration(new Date(nowMillis + user.getTtlMillis())).compact();
+        return Jwts.builder()
+                .setSubject(user.getUserid())
+                .setIssuer("www.idm.com")
+                .setAudience("audience")
+                .claim("customClaim", "customClaim")
+                .setIssuedAt(new Date(nowMillis))
+                .signWith(privateKey, SignatureAlgorithm.RS256)
+                .setExpiration(new Date(nowMillis + 3600000)).compact();
     }
 
     public Jws<Claims> parseToken(String token) {
