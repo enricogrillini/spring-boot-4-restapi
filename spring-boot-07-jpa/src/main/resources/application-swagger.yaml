@@ -25,6 +25,19 @@ paths:
       security: [ ]
       summary: Ritorna la lista di documenti
       operationId: find
+      parameters:
+        - $ref: '#/components/parameters/PageNumber'
+        - $ref: '#/components/parameters/PageSize'
+        - name: nome
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: descrizione
+          in: query
+          required: false
+          schema:
+            type: string
       responses:
         "200":
           $ref: '#/components/responses/DocumentoListResponse'
@@ -130,6 +143,26 @@ paths:
                 $ref: '#/components/schemas/Token'
 
 components:
+
+  parameters:
+    PageNumber:
+      name: pageNumber
+      in: query
+      description: Numero di pagina Zero-based  (0..N)
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+
+    PageSize:
+      name: pageSize
+      in: query
+      description: Dimensione della pagina
+      required: true
+      schema:
+        type: integer
+        minimum: 0
+
   responses:
 
     DocumentoListResponse:
@@ -137,9 +170,7 @@ components:
       content:
         application/json:
           schema:
-            type: array
-            items:
-              $ref: '#/components/schemas/Documento'
+            $ref: '#/components/schemas/DocumentoPage'
 
     DocumentoResponse:
       description: Documento
@@ -192,6 +223,18 @@ components:
           items:
             $ref: '#/components/schemas/Autore'
 
+    DocumentoPage:
+      allOf:
+        - $ref: '#/components/schemas/Page'
+      type: object
+      required:
+        - content
+      properties:
+        content:
+          type: array
+          items:
+            $ref: '#/components/schemas/Documento'
+
     Message:
       required:
         - code
@@ -231,6 +274,22 @@ components:
     #############
     # TIPI BASE #
     #############
+
+    Page:
+      type: object
+      required:
+        - totalElements
+        - totalPages
+      properties:
+        totalElements:
+          type: integer
+          minimum: 0
+          format: int64
+        totalPages:
+          type: integer
+          minimum: 0
+          format: int64
+
     Date:
       type: string
       format: date

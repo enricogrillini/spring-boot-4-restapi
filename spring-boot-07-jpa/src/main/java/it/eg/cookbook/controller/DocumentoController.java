@@ -3,6 +3,7 @@ package it.eg.cookbook.controller;
 import it.eg.cookbook.error.ApiException;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Documento;
+import it.eg.cookbook.model.DocumentoPage;
 import it.eg.cookbook.model.Message;
 import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
@@ -10,6 +11,7 @@ import it.eg.cookbook.repository.DocumentoRepository;
 import it.eg.cookbook.service.DocumentoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -49,10 +51,8 @@ public class DocumentoController implements DocumentoApi {
     }
 
     @Override
-    public ResponseEntity<List<Documento>> find() {
-        Iterable<DocumentoEntity> list = documentoRepository.findAll();
-
-        return ResponseEntity.ok(documentoMapper.documentoAutorelistEntityToApi(list));
+    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione) {
+        return documentoService.find(pageNumber, pageSize, nome, descrizione);
     }
 
     @Override

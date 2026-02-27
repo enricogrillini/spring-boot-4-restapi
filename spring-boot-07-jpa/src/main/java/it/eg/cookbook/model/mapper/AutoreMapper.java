@@ -17,24 +17,18 @@ import java.util.Comparator;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface DocumentoMapper {
+public interface AutoreMapper {
+
 
     DocumentoPage pageEntityToApi(Page<DocumentoEntity> entityPage);
 
     @Mapping(target = "autori", source = "documentoAutoreList")
     Documento entityToApi(DocumentoEntity entity);
 
-    DocumentoEntity apiToEntity(Documento apiDto);
-
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "documentoAutoreList", ignore = true)
     void updateEntity(@MappingTarget DocumentoEntity entity, Documento apiDto);
-
-    List<Documento> documentoAutorelistEntityToApi(Iterable<DocumentoEntity> entityList);
-
-    List<DocumentoEntity> listApiToEntity(Iterable<Documento> apiDtoList);
-
-
+    
     Autore autoreEntityToApi(AutoreEntity entity);
 
     default List<Autore> documentoAutorelistEntityToApi(List<DocumentoAutoreEntity> entityList) {

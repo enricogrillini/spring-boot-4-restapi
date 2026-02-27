@@ -3,6 +3,7 @@ package it.eg.cookbook.service;
 import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.Autore;
 import it.eg.cookbook.model.Documento;
+import it.eg.cookbook.model.DocumentoPage;
 import it.eg.cookbook.model.Message;
 import it.eg.cookbook.model.entity.DocumentoAutoreEntity;
 import it.eg.cookbook.model.entity.DocumentoEntity;
@@ -11,6 +12,9 @@ import it.eg.cookbook.repository.AutoreRepository;
 import it.eg.cookbook.repository.DocumentoRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +26,11 @@ public class DocumentoService {
     private final DocumentoRepository documentoRepository;
     private final AutoreRepository autoreRepository;
 
+    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione) {
+        Page<DocumentoEntity> page = documentoRepository.find(PageRequest.of(pageNumber, pageSize), nome, descrizione);
+
+        return ResponseEntity.ok(documentoMapper.pageEntityToApi(page));
+    }
 
     @Transactional
     public Documento create(Documento documento) {
