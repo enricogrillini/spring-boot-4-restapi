@@ -17,7 +17,7 @@ import java.util.Comparator;
 import java.util.List;
 
 @Mapper(componentModel = "spring")
-public interface DocumentoMapper {
+public interface DocumentoMapper extends BaseMapper {
 
     DocumentoPage pageEntityToApi(Page<DocumentoEntity> entityPage);
 

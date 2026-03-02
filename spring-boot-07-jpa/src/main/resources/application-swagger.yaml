@@ -38,6 +38,16 @@ paths:
           required: false
           schema:
             type: string
+        - name: data-da
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Date'
+        - name: data-a
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Date'
       responses:
         "200":
           $ref: '#/components/responses/DocumentoListResponse'

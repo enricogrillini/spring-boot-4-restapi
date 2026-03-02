@@ -18,6 +18,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+
 @Service
 @RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class DocumentoService {
@@ -26,8 +28,8 @@ public class DocumentoService {
     private final DocumentoRepository documentoRepository;
     private final AutoreRepository autoreRepository;
 
-    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione) {
-        Page<DocumentoEntity> page = documentoRepository.find(PageRequest.of(pageNumber, pageSize), nome, descrizione);
+    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
+        Page<DocumentoEntity> page = documentoRepository.find(PageRequest.of(pageNumber, pageSize), nome, descrizione, dataDa, dataA);
 
         return ResponseEntity.ok(documentoMapper.pageEntityToApi(page));
     }

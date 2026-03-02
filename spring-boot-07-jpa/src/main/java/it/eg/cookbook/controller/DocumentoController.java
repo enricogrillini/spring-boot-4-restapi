@@ -17,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -51,9 +52,10 @@ public class DocumentoController implements DocumentoApi {
     }
 
     @Override
-    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione) {
-        return documentoService.find(pageNumber, pageSize, nome, descrizione);
+    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
+        return documentoService.find(pageNumber, pageSize, nome, descrizione, dataDa, dataA);
     }
+
 
     @Override
     public ResponseEntity<Documento> get(Long id) {
