@@ -56,6 +56,7 @@ public class DocumentoController implements DocumentoApi {
 
         List<DocumentoPojo>  lista = documentoRepository.findAll();
         autoreDao.findAll(1L);
+        autoreDao.update();
 
         Iterable<DocumentoEntity> list = oldDocumentoRepository.findAll();
 

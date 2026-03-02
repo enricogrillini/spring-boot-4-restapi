@@ -2,7 +2,7 @@ package it.eg.cookbook.common;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.*;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
@@ -51,6 +51,10 @@ public class Query {
 
     public <T> T selectRow(NamedParameterJdbcTemplate jdbcTemplate, Class<T> mappedClass) {
         return jdbcTemplate.queryForObject(getSql(), parameters, new BeanPropertyRowMapper<>(mappedClass));
+    }
+
+    public int execute(NamedParameterJdbcTemplate jdbcTemplate) {
+        return jdbcTemplate.update(getSql(), parameters);
     }
 
     private String getSql() {

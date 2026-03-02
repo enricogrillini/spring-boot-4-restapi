@@ -20,22 +20,28 @@ public class AutoreDao {
     private final static String SQL = """
             Select a.*
             From autore a
-			/*W*/
+            /*W*/
             Order By Cognome, Nome
+            """;
+
+
+    private final static String SQL_UPDATE = """
+            update Autore Set cognome = :cognome where id = 1;
             """;
 
     public List<AutorePojo> findAll(Long idDocumento) {
         return new Query(SQL)
                 .addFilterAndParam("a.id in (select da.id_autore from documento_autore da where da.id_documento = :idDocumento)", "idDocumento", idDocumento)
                 .select(jdbcTemplate, AutorePojo.class);
-//
-//        List<DocumentoPojo> result = jdbcTemplate.query(SQL, new BeanPropertyRowMapper<>(DocumentoPojo.class));
-//
-//        for (DocumentoPojo documentoBean : result) {
-//            String sql = "SELECT * FROM autore ";
-//        }
-//
-//        return result;
+
     }
+
+
+    public int update() {
+        return new Query(SQL_UPDATE)
+                .addParameter("cognome", "prova")
+                .execute(jdbcTemplate);
+    }
+
 
 }
