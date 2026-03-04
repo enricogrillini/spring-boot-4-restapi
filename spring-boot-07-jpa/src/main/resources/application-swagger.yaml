@@ -24,8 +24,10 @@ paths:
         - Documento
       security: [ ]
       summary: Ritorna la lista di documenti
-      operationId: find
+      operationId: findDocumento
       parameters:
+        - $ref: '#/components/parameters/SortField'
+        - $ref: '#/components/parameters/SortOrder'
         - $ref: '#/components/parameters/PageNumber'
         - $ref: '#/components/parameters/PageSize'
         - name: nome
@@ -56,7 +58,7 @@ paths:
       tags:
         - Documento
       summary: Aggiunge un documento
-      operationId: create
+      operationId: createDocumento
       requestBody:
         content:
           application/json:
@@ -75,7 +77,7 @@ paths:
         - Documento
       security: [ ]
       summary: Ritorna un documento
-      operationId: get
+      operationId: getDocumento
       parameters:
         - name: id
           in: path
@@ -85,7 +87,7 @@ paths:
             format: int64
       responses:
         "200":
-          $ref:  '#/components/responses/DocumentoResponse'
+          $ref: '#/components/responses/DocumentoResponse'
         "400":
           $ref: '#/components/responses/MessageResponse'
 
@@ -93,7 +95,7 @@ paths:
       tags:
         - Documento
       summary: Aggiorna un documento
-      operationId: update
+      operationId: updateDocumento
       parameters:
         - in: path
           name: id
@@ -117,7 +119,7 @@ paths:
       tags:
         - Documento
       summary: Elimina un documento
-      operationId: delete
+      operationId: deleteDocumento
       parameters:
         - name: id
           in: path
@@ -156,7 +158,7 @@ components:
 
   parameters:
     PageNumber:
-      name: pageNumber
+      name: page-number
       in: query
       description: Numero di pagina Zero-based  (0..N)
       required: true
@@ -165,13 +167,27 @@ components:
         minimum: 0
 
     PageSize:
-      name: pageSize
+      name: page-size
       in: query
       description: Dimensione della pagina
       required: true
       schema:
         type: integer
         minimum: 0
+
+    SortField:
+      name: sort-field
+      in: query
+      required: false
+      schema:
+        type: string
+
+    SortOrder:
+      name: sort-order
+      in: query
+      required: false
+      schema:
+        $ref: '#/components/schemas/SortOrder'
 
   responses:
 
@@ -284,6 +300,12 @@ components:
     #############
     # TIPI BASE #
     #############
+
+    SortOrder:
+      type: string
+      enum:
+        - ASC
+        - DESC
 
     Page:
       type: object

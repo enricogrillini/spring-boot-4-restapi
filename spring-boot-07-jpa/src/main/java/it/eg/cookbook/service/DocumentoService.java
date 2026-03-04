@@ -1,10 +1,8 @@
 package it.eg.cookbook.service;
 
 import it.eg.cookbook.error.ResponseCode;
-import it.eg.cookbook.model.Autore;
-import it.eg.cookbook.model.Documento;
-import it.eg.cookbook.model.DocumentoPage;
-import it.eg.cookbook.model.Message;
+import it.eg.cookbook.model.*;
+import it.eg.cookbook.model.SortOrder;
 import it.eg.cookbook.model.entity.DocumentoAutoreEntity;
 import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
@@ -14,10 +12,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.*;
 import java.time.LocalDate;
 
 @Service
@@ -28,8 +28,14 @@ public class DocumentoService {
     private final DocumentoRepository documentoRepository;
     private final AutoreRepository autoreRepository;
 
-    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
-        Page<DocumentoEntity> page = documentoRepository.find(PageRequest.of(pageNumber, pageSize), nome, descrizione, dataDa, dataA);
+    public ResponseEntity<DocumentoPage> find(Integer pageNumber, Integer pageSize, String sortField, SortOrder sortOrder, String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
+
+        Sort sort = Sort.unsorted();
+        if (sortField != null) {
+            sort = SortOrder.DESC == sortOrder ? Sort.by(sortField).descending() : Sort.by(sortField).ascending();
+        }
+
+        Page<DocumentoEntity> page = documentoRepository.find(PageRequest.of(pageNumber, pageSize, sort), nome, descrizione, dataDa, dataA);
 
         return ResponseEntity.ok(documentoMapper.pageEntityToApi(page));
     }
