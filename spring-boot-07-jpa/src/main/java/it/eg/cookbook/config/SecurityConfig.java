@@ -32,7 +32,9 @@ public class SecurityConfig {
     };
 
     public static final String DOCUMENTO_URI = "/documento/**";
-    public static final String SECURITY_URI = "/security/login";
+    public static final String LOGIN_URI = "/security/login";
+
+    public static final String SECURITY_URI = "/security/**";
 
     public static final String RULE_READER = "READER";
     public static final String RULE_WRITER = "WRITER";
@@ -50,7 +52,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
                         .requestMatchers(HttpMethod.POST, DOCUMENTO_URI).hasAnyAuthority(RULE_WRITER, RULE_ADMIN)
                         .requestMatchers(HttpMethod.DELETE, DOCUMENTO_URI).hasAuthority(RULE_ADMIN)
-                        .requestMatchers(HttpMethod.POST, SECURITY_URI).permitAll()
+                        .requestMatchers(SECURITY_URI).permitAll()
+                        .requestMatchers(HttpMethod.POST, LOGIN_URI).permitAll()
                         .requestMatchers(WHITELIST).permitAll()
                         //All
                         .anyRequest().authenticated()

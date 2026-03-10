@@ -26,10 +26,10 @@ paths:
       summary: Ritorna la lista di documenti
       operationId: findDocumento
       parameters:
-        - $ref: '#/components/parameters/SortField'
-        - $ref: '#/components/parameters/SortOrder'
         - $ref: '#/components/parameters/PageNumber'
         - $ref: '#/components/parameters/PageSize'
+        - $ref: '#/components/parameters/SortField'
+        - $ref: '#/components/parameters/SortOrder'
         - name: nome
           in: query
           required: false
@@ -154,6 +154,20 @@ paths:
               schema:
                 $ref: '#/components/schemas/Token'
 
+  /security/menu:
+    get:
+      tags:
+        - Security
+      security: [ ]
+      operationId: menu
+      responses:
+        "200":
+          description: Ok
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MenuVoiceList'
+
 components:
 
   parameters:
@@ -204,6 +218,13 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Documento'
+
+    MenuVoiceListResponse:
+      description: Menu
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MenuVoiceList'
 
     MessageResponse:
       description: Messaggio generico
@@ -260,6 +281,33 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Documento'
+
+    MenuVoice:
+      required:
+        - descrizione
+        - icona
+        - rotta
+        - tooltip
+      type: object
+      properties:
+        description:
+          type: string
+        icon:
+          type: string
+        route:
+          type: string
+        tooltip:
+          type: string
+        sub-menu-voices:
+          type: array
+          items:
+            $ref: '#/components/schemas/MenuVoice'
+
+    MenuVoiceList:
+      type: array
+      items:
+        $ref: '#/components/schemas/MenuVoice'
+
 
     Message:
       required:
