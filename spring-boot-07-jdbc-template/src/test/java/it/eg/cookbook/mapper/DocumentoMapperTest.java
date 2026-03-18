@@ -1,19 +1,12 @@
 package it.eg.cookbook.mapper;
 
-import it.eg.cookbook.model.Documento;
-import it.eg.cookbook.model.entity.DocumentoEntity;
 import it.eg.cookbook.model.mapper.DocumentoMapper;
-import it.eg.cookbook.repository.OldDocumentoRepository;
-import it.eg.cookbook.util.TestUtil;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.DisplayNameGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import tools.jackson.databind.json.JsonMapper;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -26,8 +19,7 @@ class DocumentoMapperTest {
     @Autowired
     JsonMapper jsonMapper;
 
-    @Autowired
-    OldDocumentoRepository documentoRepository;
+
 
 //    @TestFactory
 //    @DisplayName("Check mapping Api to Entity")

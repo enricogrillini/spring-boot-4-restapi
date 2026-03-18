@@ -7,6 +7,8 @@ import it.eg.cookbook.error.ResponseCode;
 import it.eg.cookbook.model.pojo.DocumentoPojo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -34,11 +36,12 @@ public class DocumentoDao {
     }
 
     public DocumentoPojo findByIdOrThrow(Long idDocumento) {
-        List<DocumentoPojo> resuList = findAll(idDocumento);
-        if (resuList.isEmpty()) {
+        try {
+            return new Query(SQL)
+                    .addFilterAndParam("d.id = :idDocumento", "idDocumento", idDocumento)
+                    .selectRow(jdbcTemplate, DocumentoPojo.class);
+        } catch (IncorrectResultSizeDataAccessException ex) {
             throw new ApiException(ResponseCode.NOT_FOUND, "Documento non trovato");
-        } else {
-            return resuList.get(0);
         }
     }
 
