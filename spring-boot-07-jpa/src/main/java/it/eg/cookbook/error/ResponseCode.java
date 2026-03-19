@@ -4,6 +4,8 @@ import it.eg.cookbook.model.Message;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+import java.util.Optional;
+
 
 public enum ResponseCode {
 
@@ -37,4 +39,13 @@ public enum ResponseCode {
         this.description = description;
         this.httpStatus = httpStatus;
     }
+
+    public static Optional<ResponseCode> safeValueOf(String name) {
+        try {
+            return Optional.of(ResponseCode.valueOf(name));
+        } catch (IllegalArgumentException | NullPointerException e) {
+            return Optional.empty();
+        }
+    }
+}
 }
