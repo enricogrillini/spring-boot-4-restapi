@@ -1,6 +1,7 @@
 package it.eg.cookbook.error;
 
 import it.eg.cookbook.model.Message;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -41,11 +42,14 @@ public enum ResponseCode {
     }
 
     public static Optional<ResponseCode> safeValueOf(String name) {
+        if (StringUtils.isEmpty(name)) {
+            return Optional.empty();
+        }
+
         try {
             return Optional.of(ResponseCode.valueOf(name));
         } catch (IllegalArgumentException | NullPointerException e) {
             return Optional.empty();
         }
     }
-}
 }
