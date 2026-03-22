@@ -25,6 +25,31 @@ paths:
       security: [ ]
       summary: Ritorna la lista di documenti
       operationId: find
+      parameters:
+        #- $ref: '#/components/parameters/PageNumber'
+        #- $ref: '#/components/parameters/PageSize'
+        #- $ref: '#/components/parameters/SortField'
+        #- $ref: '#/components/parameters/SortOrder'
+        - name: nome
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: descrizione
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: data-da
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Date'
+        - name: data-a
+          in: query
+          required: false
+          schema:
+            $ref: '#/components/schemas/Date'
       responses:
         "200":
           $ref: '#/components/responses/DocumentoListResponse'

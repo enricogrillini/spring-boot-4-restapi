@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -43,17 +44,8 @@ public class DocumentoController implements DocumentoApi {
     }
 
     @Override
-    public ResponseEntity<List<Documento>> find() {
-
-//        List<DocumentoPojo>  lista = documentoRepository.findAll();
-////        autoreDao.findAll(1L);
-////        autoreDao.update();
-////
-////        Iterable<DocumentoEntity> list = oldDocumentoRepository.findAll();
-////
-////        return ResponseEntity.ok(documentoMapper.documentoAutorelistEntityToApi(list));
-
-        return null;
+    public ResponseEntity<List<Documento>> find(String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
+        return documentoService.find(nome, descrizione, dataDa, dataA);
     }
 
     @Override

@@ -58,8 +58,9 @@ public class Query {
     }
 
     private String getSql() {
-        String whereCondition = filters.stream().collect(Collectors.joining("\n"));
-        if (sql.toLowerCase().indexOf("where") < 0) {
+        String whereCondition = String.join(" And\n", filters);
+
+        if (!filters.isEmpty() && !sql.toLowerCase().contains("where")) {
             whereCondition = "Where " + whereCondition;
         }
 

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -24,9 +25,21 @@ public class DocumentoService {
 
     public ResponseEntity<Documento> get(Long idDocumento) {
         DocumentoPojo documentoPojo = documentoDao.findByIdOrThrow(idDocumento);
-        List<AutorePojo> autorePojoList = autoreDao.findAll(idDocumento);
+        Documento documento = documentoMapper.documentoPojoToApi(documentoPojo);
 
-        return ResponseEntity.ok(documentoMapper.pojoToApi(documentoPojo, autorePojoList));
+        List<AutorePojo> autorePojoList = autoreDao.findAll(idDocumento);
+        documento.setAutori(documentoMapper.autorePojoToApi(autorePojoList));
+
+        return ResponseEntity.ok(documento);
+    }
+
+    public ResponseEntity<List<Documento>> find(String nome, String descrizione, LocalDate dataDa, LocalDate dataA) {
+        List<Documento> result = documentoMapper.documentoPojoToApi(documentoDao.find(nome, descrizione, dataDa, dataA));
+        for (Documento documento : result) {
+            documento.setAutori(documentoMapper.autorePojoToApi(autoreDao.findAll(documento.getId())));
+        }
+
+        return ResponseEntity.ok(result);
     }
 //
 //        @Transactional

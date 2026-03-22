@@ -13,10 +13,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface DocumentoMapper {
 
-    @Mapping(target = "autori", source = "autorePojoList")
-    Documento pojoToApi(DocumentoPojo documentoPojo, List<AutorePojo> autorePojoList);
+    @Mapping(target = "autori", ignore = true)
+    Documento documentoPojoToApi(DocumentoPojo documentoPojo);
 
-    Autore pojoToApi(AutorePojo autorePojo);
+    List<Documento> documentoPojoToApi(List<DocumentoPojo> documentoPojoList);
 
-    List<Autore> pojoToApi(List<AutorePojo> autorePojoList);
+    Autore autorePojoToApi(AutorePojo autorePojo);
+
+    List<Autore> autorePojoToApi(List<AutorePojo> autorePojoList);
 }
