@@ -15,17 +15,17 @@
         <maven.compiler.source>21</maven.compiler.source>
 
         <mapstruct.version>1.5.5.Final</mapstruct.version>
-        <springdoc.version>3.0.0</springdoc.version>
+        <springdoc.version>3.0.3</springdoc.version>
 
         <!-- Open api -->
-        <openapitools.version>7.16.0</openapitools.version>
+        <openapitools.version>7.22.0</openapitools.version>
         <jackson-databind-nullable.version>0.2.6</jackson-databind-nullable.version>
     </properties>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.2</version>
+        <version>4.0.6</version>
     </parent>
 
     <dependencies>
